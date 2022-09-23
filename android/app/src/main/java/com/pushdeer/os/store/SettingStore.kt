@@ -26,4 +26,10 @@ class SettingStore(context: Context) {
     var selfHostedEndpointUrl by store.string("self-hosted-endpoint-url", "http://")
 
     var useInnerWebView by store.boolean("user-inner-webview",false)
+
+    var mqttHost by store.string("mqtt-host", "")
+    var mqttPort by store.string("mqtt-port", "")
+    var mqttUser by store.string("mqtt-user", "")
+    var mqttPassword by store.string("mqtt-password", "")
+    var mqttTopic by store.string("mqtt-topic", "")
 }

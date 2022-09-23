@@ -1,14 +1,12 @@
 package com.pushdeer.os.data.api
 
 import com.pushdeer.os.data.api.data.response.*
-import retrofit2.http.Field
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface PushDeerApi {
     companion object {
-        val baseUrl = "https://api2.pushdeer.com"
+//        val baseUrl = "https://api2.pushdeer.com"
+        val baseUrl = "http://10.10.34.60:8800"
     }
 
     @FormUrlEncoded
@@ -27,8 +25,8 @@ interface PushDeerApi {
         @Field("tokenorcode") tokenorcode: String // input idToken / code
     ): String
 
-//    @GET("/login/fake")
-//    suspend fun fakeLogin(): ReturnData<TokenOnly>
+    @GET("/login/fake")
+    suspend fun fakeLogin(): ReturnData<TokenOnly>
 
     @FormUrlEncoded
     @POST("/user/info")

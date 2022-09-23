@@ -30,16 +30,14 @@ import com.pushdeer.os.store.SettingStore
 import com.pushdeer.os.ui.compose.componment.MyAlertDialog
 import com.pushdeer.os.ui.compose.page.LogDogPage
 import com.pushdeer.os.ui.compose.page.LoginPage
+import com.pushdeer.os.ui.compose.page.MQTTConfigPage
 import com.pushdeer.os.ui.compose.page.main.MainPage
 import com.pushdeer.os.ui.theme.PushDeerTheme
 import com.pushdeer.os.util.ActivityOpener
 import com.pushdeer.os.util.NotificationUtil
 import com.pushdeer.os.util.SystemUtil
 import com.pushdeer.os.values.AppKeys
-import com.pushdeer.os.viewmodel.LogDogViewModel
-import com.pushdeer.os.viewmodel.MessageViewModel
-import com.pushdeer.os.viewmodel.PushDeerViewModel
-import com.pushdeer.os.viewmodel.UiViewModel
+import com.pushdeer.os.viewmodel.*
 import com.pushdeer.os.wxapi.WXEntryActivity
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import io.noties.markwon.*
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity(), RequestHolder {
     override val pushDeerViewModel: PushDeerViewModel by viewModels { viewModelFactory }
     override val logDogViewModel: LogDogViewModel by viewModels { viewModelFactory }
     override val messageViewModel: MessageViewModel by viewModels { viewModelFactory }
+    override val mqttViewModel: MQTTViewModel by viewModels { viewModelFactory }
     override val settingStore: SettingStore by lazy { (application as App).storeKeeper.settingStore }
 
     override val coilImageLoader: ImageLoader by lazy {
@@ -95,6 +94,18 @@ class MainActivity : AppCompatActivity(), RequestHolder {
 
     override val appleLogin: RequestHolder.AppleLoginRequest by lazy {
         RequestHolder.AppleLoginRequest(supportFragmentManager, this)
+    }
+
+    override val fakeLogin: RequestHolder.FakeLoginRequest by lazy {
+        RequestHolder.FakeLoginRequest {
+            coroutineScope.launch {
+                pushDeerViewModel.loginWithDebug {
+                    globalNavController.navigate("main") {
+                        globalNavController.popBackStack()
+                    }
+                }
+            }
+        }
     }
 
     override val markdown: Markwon by lazy {
@@ -230,6 +241,9 @@ class MainActivity : AppCompatActivity(), RequestHolder {
                             }
                             composable("main") {
                                 MainPage(requestHolder = this@MainActivity)
+                            }
+                            composable("mqttConfig"){
+                                MQTTConfigPage(requestHolder = this@MainActivity)
                             }
                         }
                     }

@@ -49,7 +49,7 @@ fun MainPageFrame(
                     text = stringResource(id = titleStringId), fontSize = 32.sp,
                     fontWeight = FontWeight.W400,
                 )
-//                if (showSideIcon) {
+                if (showSideIcon) {
                     IconButton(onClick = onSideIconClick,modifier = Modifier.alpha(if (showSideIcon)1F else 0F)) {
                         Icon(
                             imageVector = sideIcon,
@@ -58,7 +58,7 @@ fun MainPageFrame(
                             modifier = iconModifier
                         )
                     }
-//                }
+                }
             }
             Box(
                 modifier = Modifier

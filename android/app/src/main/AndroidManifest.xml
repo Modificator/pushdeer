@@ -124,8 +124,7 @@
         </receiver>
 
         <activity android:name=".WebViewActivity"/>
-
-
+        <service android:name=".service.MQTTService" android:exported="false"/>
     </application>
 
 </manifest>

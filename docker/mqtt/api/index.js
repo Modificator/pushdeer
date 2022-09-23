@@ -45,6 +45,7 @@ app.all('/send', timeout('3s'), haltOnTimedout, async (req, res) => {
     username: process.env.MQTT_USER||"",
     password: process.env.MQTT_PASSWORD||"",
   });
+  console.log(`publish`+msg_topic+'_'+msg_type,msg_content);
   try {
     await client.publish(msg_topic+'_'+msg_type,msg_content);    
   } catch (error) {
@@ -62,7 +63,7 @@ app.use(function (err, req, res, next) {
   console.error(err);
   res.status(500).send('Internal Serverless Error');
 });
-
+console.log(`Server start on http://localhost`);
 app.listen(80, () => {
   console.log(`Server start on http://localhost`);
 });

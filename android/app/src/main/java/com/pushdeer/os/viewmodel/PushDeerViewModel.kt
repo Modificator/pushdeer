@@ -80,6 +80,27 @@ class PushDeerViewModel(
         }
     }
 
+    suspend fun loginWithDebug(onReturn: (String) -> Unit){
+        withContext(Dispatchers.IO){
+            try {
+                pushDeerService.fakeLogin().let {
+                    it.content?.let { tokenOnly ->
+                        settingStore.userToken = tokenOnly.token
+                        token = tokenOnly.token
+                        Log.d(TAG, "loginDebug: $token")
+                    }
+                    withContext(Dispatchers.Main){
+                        onReturn.invoke(token)
+                    }
+                }
+                logDogRepository.logi("loginWithDebug", "withDebug", "nothing happened")
+            }catch (e:Exception){
+                Log.e(TAG, "loginWithDebug: ${e.localizedMessage}")
+                logDogRepository.loge("loginWithDebug", "", e.toString())
+            }
+        }
+    }
+
     suspend fun userMerge(type:String,tokenorcode:String,onReturn: (String) -> Unit={}){
         Log.d("WH_", ": token:${token} type:${type} tokenorcode:${tokenorcode}")
 

@@ -5,10 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.pushdeer.os.data.api.PushDeerApi
 import com.pushdeer.os.keeper.RepositoryKeeper
 import com.pushdeer.os.keeper.StoreKeeper
-import com.pushdeer.os.viewmodel.LogDogViewModel
-import com.pushdeer.os.viewmodel.MessageViewModel
-import com.pushdeer.os.viewmodel.PushDeerViewModel
-import com.pushdeer.os.viewmodel.UiViewModel
+import com.pushdeer.os.viewmodel.*
 
 class ViewModelFactory(
     private val repositoryKeeper: RepositoryKeeper,
@@ -39,6 +36,11 @@ class ViewModelFactory(
                 return MessageViewModel(
                     messageRepository = repositoryKeeper.messageRepository,
                     pushDeerService = pushDeerService,
+                    settingStore = storeKeeper.settingStore
+                ) as T
+            }
+            modelClass.isAssignableFrom(MQTTViewModel::class.java) -> {
+                return MQTTViewModel(
                     settingStore = storeKeeper.settingStore
                 ) as T
             }

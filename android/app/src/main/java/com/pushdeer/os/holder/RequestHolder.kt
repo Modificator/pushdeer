@@ -20,10 +20,7 @@ import com.pushdeer.os.data.api.data.request.DeviceInfo
 import com.pushdeer.os.data.api.data.response.Message
 import com.pushdeer.os.data.api.data.response.PushKey
 import com.pushdeer.os.store.SettingStore
-import com.pushdeer.os.viewmodel.LogDogViewModel
-import com.pushdeer.os.viewmodel.MessageViewModel
-import com.pushdeer.os.viewmodel.PushDeerViewModel
-import com.pushdeer.os.viewmodel.UiViewModel
+import com.pushdeer.os.viewmodel.*
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.wh.common.activity.QrScanActivity
@@ -40,6 +37,7 @@ interface RequestHolder {
     val pushDeerViewModel: PushDeerViewModel
     val logDogViewModel: LogDogViewModel
     val messageViewModel: MessageViewModel
+    val mqttViewModel: MQTTViewModel
     val settingStore: SettingStore
     val globalNavController: NavHostController
     val coroutineScope: CoroutineScope
@@ -58,6 +56,7 @@ interface RequestHolder {
     val clip: ClipRequest
     val weChatLogin: WeChatLoginRequest
     val appleLogin: AppleLoginRequest
+    val fakeLogin: FakeLoginRequest
 
 //    val iwxapi: IWXAPI
 
@@ -148,6 +147,10 @@ interface RequestHolder {
             req.state = System.currentTimeMillis().toString()
             iwxapi.sendReq(req)
         }
+    }
+
+    class FakeLoginRequest(onCall: () -> Unit) {
+        val login = onCall
     }
 
     class ClipRequest(private val clipboardManager: ClipboardManager) {

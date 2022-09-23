@@ -6,3 +6,4 @@ android/app/java/com/pushdeer/os/values/App*
 android/app/build
 android/app/debug
 android/app/release
+.idea

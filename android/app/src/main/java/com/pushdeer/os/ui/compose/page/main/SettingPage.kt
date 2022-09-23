@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.pushdeer.os.R
 import com.pushdeer.os.data.api.data.response.UserInfo
 import com.pushdeer.os.holder.RequestHolder
+import com.pushdeer.os.service.MQTTService
 import com.pushdeer.os.ui.compose.componment.SettingItem
 import com.pushdeer.os.ui.navigation.Page
 import com.pushdeer.os.ui.theme.MBlue
@@ -165,6 +166,15 @@ fun SettingPage(requestHolder: RequestHolder) {
 //                    requestHolder.startQrScanActivity()
 //                }
 //            }
+            item { 
+                SettingItem(text = stringResource(id = R.string.main_setting_mqtt_config),
+                    buttonString = stringResource(id = R.string.main_setting)) {
+                    requestHolder.globalNavController.navigate("mqttConfig")
+                    requestHolder.globalNavController.context.let {
+                        it.startService(Intent(it, MQTTService::class.java))
+                    }
+                }
+            }
             item {
                 SettingItem(
                     text = stringResource(id = R.string.main_setting_douyoulike),
